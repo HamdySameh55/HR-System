@@ -1,0 +1,17 @@
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.Services.deps.json
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.Services.dll
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.Services.pdb
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.Core.dll
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.DataAccess.dll
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.Core.pdb
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\bin\Debug\net9.0\HRSystem.DataAccess.pdb
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.csproj.AssemblyReference.cache
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.AssemblyInfoInputs.cache
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.AssemblyInfo.cs
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.csproj.CoreCompileInputs.cache
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.7756FEBB.Up2Date
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.dll
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\refint\HRSystem.Services.dll
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\HRSystem.Services.pdb
+C:\Users\sameh\OneDrive\Desktop\HRSYSTEM\HRSystem\HRSystem.Services\obj\Debug\net9.0\ref\HRSystem.Services.dll
