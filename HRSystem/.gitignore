@@ -1,0 +1,15 @@
+# Build Folders
+bin/
+obj/
+
+# VS stuff
+.vs/
+*.user
+*.suo
+
+# Rider / IDE
+.idea/
+
+# Others
+*.log
+*.cache
