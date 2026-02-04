@@ -7,7 +7,6 @@ obj/
 *.user
 *.suo
 
-# Rider / IDE
 .idea/
 
 # Others

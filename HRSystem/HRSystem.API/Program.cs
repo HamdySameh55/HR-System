@@ -1,48 +1,107 @@
-using HRSystem.DataAccess;           // استدعاء مشروع الـ DataAccess
-using Microsoft.EntityFrameworkCore; // علشان UseSqlite
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+using HRSystem.DataAccess;
+using HRSystem.DataAccess.Repositories;
+using HRSystem.Core.Interfaces;
+using HRSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Configure DbContext with SQLite
+// ─── Add Controllers ──────────────────────────────
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+// ─── Add Swagger (Swashbuckle 6.5.0) ─────────────
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "HRSystem API",
+        Version = "v1",
+        Description = "API for HR System"
+    });
+});
+
+// ─── Database ────────────────────────────────────
 builder.Services.AddDbContext<HRDbContext>(options =>
-    options.UseSqlite("Data Source=HRSystem.db")); // اسم ملف قاعدة البيانات SQLite
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    );
+});
 
-// OpenAPI / Swagger
-builder.Services.AddOpenApi();
+// ─── JWT Authentication ─────────────────────────
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "your-secret-key-minimum-32-chars!";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "HRSystem";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "HRSystemAPI";
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtIssuer,
+            ValidateAudience = true,
+            ValidAudience = jwtAudience,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// ─── Dependency Injection ────────────────────────
+// Repositories
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Services
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<LeaveService>();
+builder.Services.AddScoped<AuthService>();
+
+// ─── CORS ───────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
+// ─── Build App ──────────────────────────────────
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ─── Middleware ─────────────────────────────────
+app.UseCors("AllowAll");
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+// ─── Swagger Middleware (Development Only) ──────
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "HRSystem API V1");
+        c.RoutePrefix = string.Empty; // لو عايز Swagger يفتح على root
+    });
 }
 
-app.UseHttpsRedirection();
+// ─── Map Controllers ────────────────────────────
+app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
+// ─── Run App ───────────────────────────────────
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
